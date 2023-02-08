@@ -1,11 +1,9 @@
-import { ButtonContainer, ButtonVariant } from "./Button.styled.js";
+import { ButtonContainer, ButtonVariant } from './Button.styled.js'
 
 interface ButtonProps {
-    variant: ButtonVariant
+  variant: ButtonVariant
 }
 
-export function Button({variant='primary'}:ButtonProps) {
-    return (
-        <ButtonContainer variant={variant}/>
-    )
+export function Button({ variant = 'primary' }: ButtonProps) {
+  return <ButtonContainer variant={variant} />
 }
