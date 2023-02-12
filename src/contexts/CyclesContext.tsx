@@ -29,49 +29,50 @@ interface CycleContextType {
 
 interface CyclesState {
   cycles: Cycle[]
-  activeCycleId: number | null
+  activeCycleId: string | null
 }
 
 export const CyclesContext = createContext({} as CycleContextType)
 
 export function CyclesContextProvider({ children }: CyclesContextProps) {
   const [amountSecondsPassed, setAmountSecondsPassed] = useState(0)
+
   const [cyclesState, dispatch] = useReducer(
     (state: CyclesState, action: any) => {
-      if (action.type === 'CREATE_NEW_CYCLE') {
-        return {
-          activeCycleId: action.newCycle.id,
-          cycles: [...state.cycles, action.payload.newCycle],
-        }
+      switch (action.type) {
+        case 'CREATE_NEW_CYCLE':
+          return {
+            ...state,
+            cycles: [...state.cycles, action.payload.newCycle],
+            activeCycleId: action.payload.newCycle.id,
+          }
+        case 'INTERRUPT_CURRENT_CYCLE':
+          return {
+            ...state,
+            activeCycleId: null,
+            cycles: state.cycles.map((cycle) => {
+              if (cycle.id === state.activeCycleId) {
+                return { ...cycle, interruptedDate: new Date() }
+              } else {
+                return cycle
+              }
+            }),
+          }
+        case 'MARK_CURRENT_CYCLE_AS_FINISHED':
+          return {
+            ...state,
+            activeCycleId: null,
+            cycles: state.cycles.map((cycle) => {
+              if (cycle.id === action.payload.activeCycleId) {
+                return { ...cycle, finishedDate: new Date() }
+              } else {
+                return cycle
+              }
+            }),
+          }
+        default:
+          return state
       }
-
-      if (action.type === 'INTERRUPT_CURRENT_CYCLE') {
-        return {
-          cycles: cycles.map((cycle) => {
-            if (cycle.id === action.payload.activeCycleId) {
-              return { ...cycle, interruptedDate: new Date() }
-            } else {
-              return cycle
-            }
-          }),
-          activeCycleId: null,
-        }
-      }
-
-      if (action.type === 'MARK_CURRENT_CYCLE_AS_FINISHED') {
-        return {
-          activeCycleId: null,
-          cycles: cycles.map((cycle) => {
-            if (cycle.id === action.payload.activeCycleId) {
-              return { ...cycle, finishedDate: new Date() }
-            } else {
-              return cycle
-            }
-          }),
-        }
-      }
-
-      return state
     },
     {
       cycles: [],
