@@ -7,7 +7,6 @@ export function History() {
 
   return (
     <HistoryContainer>
-      <pre>{JSON.stringify(cycles, null, 2)}</pre>
       <h1>My history</h1>
       <HistoryList>
         <table>
@@ -20,38 +19,27 @@ export function History() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Task</td>
-              <td>20 minutes</td>
-              <td>last 20 days</td>
-              <td>
-                <Status statusColor="green">Finished</Status>
-              </td>
-            </tr>
-            <tr>
-              <td>Task</td>
-              <td>20 minutes</td>
-              <td>last 20 days</td>
-              <td>
-                <Status statusColor="yellow">in progress</Status>
-              </td>
-            </tr>
-            <tr>
-              <td>Task</td>
-              <td>20 minutes</td>
-              <td>last 20 days</td>
-              <td>
-                <Status statusColor="red">Suspended</Status>
-              </td>
-            </tr>
-            <tr>
-              <td>Task</td>
-              <td>20 minutes</td>
-              <td>last 20 days</td>
-              <td>
-                <Status statusColor="green">Finished</Status>
-              </td>
-            </tr>
+            {cycles.map((cycle) => {
+              return (
+                <tr key={cycle.id}>
+                  <td>{cycle.task}</td>
+                  <td>{cycle.minutesAmount}</td>
+                  <td>{cycle.startDate.toISOString()}</td>
+                  <td>
+                    {cycle.finishedDate && (
+                      <Status statusColor="green">Finished</Status>
+                    )}
+
+                    {cycle.interruptedDate && (
+                      <Status statusColor="red">Canceled</Status>
+                    )}
+                    {!cycle.interruptedDate && !cycle.finishedDate && (
+                      <Status statusColor="yellow">Running</Status>
+                    )}
+                  </td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </HistoryList>
