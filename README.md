@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://ignite-social-ten.vercel.app/">
- <img width=100px height=200px src="./readme_assets/logo-timer.svg" alt="Project logo"></a>
+  <a href="https://pomodoro-timer-ebon.vercel.app/">
+ <img width=100px height=150px src="./readme_assets/logo-timer.svg" alt="Project logo"></a>
 </p>
 
 <h3 align="center">Ignite Fundamentals Project</h3>
