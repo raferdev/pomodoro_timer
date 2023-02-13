@@ -49,8 +49,13 @@ export function CyclesContextProvider({ children }: CyclesContextProps) {
       if (storedStateJSON) {
         return JSON.parse(storedStateJSON)
       }
+      return {
+        cycles: [],
+        activeCycleId: null,
+      }
     },
   )
+
   const { cycles, activeCycleId } = cyclesState
 
   useEffect(() => {
