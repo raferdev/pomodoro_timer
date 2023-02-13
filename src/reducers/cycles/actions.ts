@@ -8,7 +8,7 @@ export enum ActionTypes {
 
 export function addNewCycleAction(newCycle: Cycle) {
   return {
-    type: ActionTypes.INTERRUPT_CURRENT_CYCLE,
+    type: ActionTypes.CREATE_NEW_CYCLE,
     payload: {
       newCycle,
     },
